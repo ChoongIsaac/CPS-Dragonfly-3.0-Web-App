@@ -48,7 +48,7 @@
 <body>
     <nav class="navbar navbar-expand-lg navbar-light navbar-laravel">
         <div class="container-fluid">
-            <a class="navbar-brand" href="dashboard" style="color:#F2F2F2;"><b>CPS</b> Road Runner</a>
+            <a class="navbar-brand" href="dashboard" style="color:#F2F2F2;"><b>CPS</b> Dragonfly</a>
         </div>
     </nav>
      
