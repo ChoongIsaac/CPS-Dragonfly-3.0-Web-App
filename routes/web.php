@@ -4,6 +4,7 @@ use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\Auth\AuthController;
 use App\Http\Controllers\ItemController;
 use App\Http\Controllers\ScanController;
+use App\Http\Controllers\DroneController;
 /*
 |--------------------------------------------------------------------------
 | Web Routes
@@ -51,3 +52,5 @@ Route::get('resetitemtatus', [ScanController::class, 'resetitemtatus']);
 
 Route::get('setfound\{id}', [ScanController::class, 'setfound'])->name('setfound');
 Route::get('setlost\{id}', [ScanController::class, 'setlost'])->name('setlost');
+
+Route::get('dronecontrol',[DroneController::class,'dronecontrol']);
