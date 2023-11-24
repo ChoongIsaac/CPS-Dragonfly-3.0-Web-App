@@ -18,7 +18,7 @@
                         </div>
 
                         <div class="col-sm-1" style='margin-left:10%;' >
-                            <button type="button" class="btn btn-success" ><a class="text text-light text-decoration-none" href=""><i class="fa fa-play"></i> Takeoff </a></button>
+                            <button type="button" class="btn btn-success" id="takeoff" ><a class="text text-light text-decoration-none" href=""><i class="fa fa-play"></i> Takeoff </a></button>
                         </div>
 
                         <div class="col-sm-1" style='margin-left:4%;' >
@@ -57,4 +57,35 @@
     </div>
 </div>
 
+<script>
+    document.getElementById('takeoff').addEventListener('click', async function() {
+        console.log("takeoff is clicked");
+        event.preventDefault();
+
+        try {
+            // Make an asynchronous POST request to the takeoff endpoint
+            const response = await fetch('http://192.168.10.2:5000/test', {
+                method: 'GET',
+                mode: 'no-cors'
+                // Add headers if needed
+                // headers: {
+                //     'Content-Type': 'application/json',
+                //     // other headers...
+                // },
+                // Add body if needed
+                // body: JSON.stringify({ key: 'value' }),
+            });
+
+            const data = await response.json();
+
+            // Handle the response data if needed
+            console.log(data);
+            document.getElementById('response').innerText = 'Takeoff request sent!';
+        } catch (error) {
+            // Handle errors
+            console.error('Error:', error);
+            document.getElementById('response').innerText = 'Error sending takeoff request';
+        }
+    });
+</script>
 @endsection

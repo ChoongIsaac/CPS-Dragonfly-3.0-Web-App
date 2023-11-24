@@ -69,14 +69,14 @@
 
     // Initialize Firebase
     var config = {
-        apiKey: "{{ config('services.firebase.apiKey') }}",
-        authDomain: "{{ config('services.firebase.authDomain') }}",
-        projectId: "{{ config('services.firebase.projectId') }}",
-        storageBucket: "{{ config('services.firebase.storageBucket') }}",
-        messagingSenderId: "{{ config('services.firebase.messagingSenderId') }}",
-        appId: "{{ config('services.firebase.appId') }}",
-        measurementId: "{{ config('services.firebase.measurementId') }}",
-        databaseURL: "{{ config('services.firebase.databaseURL') }}"
+        apiKey: "AIzaSyCxofI8Z_J0dJaESXsyzUUORWf1Qp3EdUQ",
+        authDomain: "cps-dragonfly.firebaseapp.com",
+        databaseURL: "https://cps-dragonfly-default-rtdb.asia-southeast1.firebasedatabase.app",
+        projectId: "cps-dragonfly",
+        storageBucket: "cps-dragonfly.appspot.com",
+        messagingSenderId: "823184320698",
+        appId: "1:823184320698:web:08c2d66b8a48c7673e3a83",
+        measurementId: "G-Z5EFGHLVN1"
     };
 
     firebase.initializeApp(config);
@@ -176,6 +176,10 @@
         console.log('Error!');
         console.log(err);
     }
+
+    function startRFID(）{
+        
+    })
 
 </script>
 

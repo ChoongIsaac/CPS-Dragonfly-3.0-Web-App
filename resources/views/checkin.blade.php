@@ -23,7 +23,7 @@
                             <div class="form-group row">
                                 <label class="col-sm-3 col-form-label">Item Code</label>
                                 <div class="col-sm-9">
-                                    <input type="text" id="rfid_id" name="rfid_id" class="form-control" style="text-transform:uppercase" oninput="this.value = this.value.toUpperCase()" pattern="[A-Fa-f0-9]{24,24}" maxlength="24" title="Must contain exactly 24 hexadecimal characters" value="" required/>
+                                    <input type="text" id="rfid_id" name="rfid_id" class="form-control" style="text-transform:uppercase" oninput="this.value = this.value.toUpperCase()" pattern="[A-Fa-f0-9]{0,24}" maxlength="24" title="Must contain exactly 24 hexadecimal characters" value="" required/>
                                     @if ($errors->has('rfid_id'))
                                       <span class="text-danger">{{ $errors->first('rfid_id') }}</span>
                                     @endif
