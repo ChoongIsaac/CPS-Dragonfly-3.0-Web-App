@@ -55,8 +55,9 @@
 
         </div>
     </div>
-</div>
+    <img id="video-stream" src="http://127.0.0.1:5000/video_feed" alt="Video Stream is not available, drone is disconnected" width="960" height="720">
 
+</div>
 <script>
     document.getElementById('takeoff').addEventListener('click', async function() {
         console.log("takeoff is clicked");
@@ -64,9 +65,9 @@
 
         try {
             // Make an asynchronous POST request to the takeoff endpoint
-            const response = await fetch('http://192.168.10.2:5000/test', {
+            const response = await fetch('http://127.0.0.1:5000/test', {
                 method: 'GET',
-                mode: 'no-cors'
+                //mode: 'no-cors'
                 // Add headers if needed
                 // headers: {
                 //     'Content-Type': 'application/json',
