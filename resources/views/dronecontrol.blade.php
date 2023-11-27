@@ -3,6 +3,7 @@
 
 @section('content')
 @include('sidebar.sidebar')
+
 <div style="padding-top:30px;" class="container">
     <div class="row justify-content-center">
         <div class="container">
@@ -56,7 +57,7 @@
         </div>
     </div>
     <img id="video-stream" src="http://127.0.0.1:5000/video_feed" alt="Video Stream is not available, drone is disconnected" width="960" height="720">
-
+    @include('pathrow')
 </div>
 <script>
     document.getElementById('takeoff').addEventListener('click', async function() {
