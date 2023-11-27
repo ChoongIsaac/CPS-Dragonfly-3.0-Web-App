@@ -22,7 +22,7 @@
                         </div>
 
                         <div class="col-sm-1" style='margin-left:4%;' >
-                            <button type="button" class="btn btn-danger" data-toggle="modal" data-target="#scan_result_modal"><i class="fa fa-stop"></i> Land </button>
+                            <button type="button" class="btn btn-danger" id="land" data-toggle="modal" data-target="#scan_result_modal"><i class="fa fa-stop"></i> Land </button>
                         </div>
  
                         
@@ -60,21 +60,13 @@
 </div>
 <script>
     document.getElementById('takeoff').addEventListener('click', async function() {
-        console.log("takeoff is clicked");
         event.preventDefault();
 
         try {
             // Make an asynchronous POST request to the takeoff endpoint
-            const response = await fetch('http://127.0.0.1:5000/test', {
-                method: 'GET',
-                //mode: 'no-cors'
-                // Add headers if needed
-                // headers: {
-                //     'Content-Type': 'application/json',
-                //     // other headers...
-                // },
-                // Add body if needed
-                // body: JSON.stringify({ key: 'value' }),
+            const response = await fetch('http://127.0.0.1:5000/takeoff', {
+                method: 'POST',
+               
             });
 
             const data = await response.json();
@@ -88,5 +80,84 @@
             document.getElementById('response').innerText = 'Error sending takeoff request';
         }
     });
+    document.getElementById('land').addEventListener('click', async function() {
+        event.preventDefault();
+
+        try {
+            // Make an asynchronous POST request to the takeoff endpoint
+            const response = await fetch('http://127.0.0.1:5000/land', {
+                method: 'POST',
+            
+            });
+
+            const data = await response.json();
+
+            // Handle the response data if needed
+            console.log(data);
+            document.getElementById('response').innerText = 'Takeoff request sent!';
+        } catch (error) {
+            // Handle errors
+            console.error('Error:', error);
+            document.getElementById('response').innerText = 'Error sending takeoff request';
+        }
+    });
+
+    document.addEventListener('keydown', function(event) {
+            console.log('Key pressed: ' + event.key); // Add this line
+
+            var command = '';
+            switch (event.key) {
+                case 'ArrowUp':
+                    command = 'move_forward';
+                    break;
+                case 'ArrowDown':
+                    command = 'move_backward';
+                    break;
+                case 'ArrowLeft':
+                    command = 'move_left';
+                    break;
+                case 'ArrowRight':
+                    command = 'move_right';
+                    break;
+                case 'i':
+                    command = 'move_up';
+                    break;
+                case 'k':
+                    command = 'move_down';
+                    break;
+                case 'j':
+                    command = 'rotate_left';
+                    break;
+                case 'l':
+                    command = 'rotate_right';
+                    break;
+            }
+
+            if (command) {
+                fetch('http://127.0.0.1:5000/send_command', {
+                        method: 'POST',
+                        headers: {
+                            'Content-Type': 'application/json'
+                        },
+                        body: JSON.stringify({
+                            command: command
+                        })
+                    })
+                    .then(response => {
+                        if (response.ok) {
+                            console.log('Command sent: ' + command);
+                        } else {
+                            console.error('Failed to send command: ' + command);
+                        }
+                    });
+            }
+        });
+
+        
+window.addEventListener("keydown", function(e) {
+    if(["ArrowUp","ArrowDown","ArrowLeft","ArrowRight"].indexOf(e.code) > -1) {
+        e.preventDefault();
+    }
+}, false);
 </script>
 @endsection
