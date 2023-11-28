@@ -56,8 +56,16 @@
 
         </div>
     </div>
-    <img id="video-stream" src="http://127.0.0.1:5000/video_feed" alt="Video Stream is not available, drone is disconnected" width="960" height="720">
-    @include('pathrow')
+    <br/>
+    <div class="row justify-content-center">
+        <div class="col-md-8">
+            <img id="video-stream" src="http://127.0.0.1:5000/video_feed" alt="Video Stream is not available, drone is disconnected" width="760" height="520">
+        </div>
+        <div class="col-md-4 " >
+            @include('pathrow')
+        </div>
+    </div>
+
 </div>
 <script>
     document.getElementById('takeoff').addEventListener('click', async function() {
@@ -161,4 +169,18 @@ window.addEventListener("keydown", function(e) {
     }
 }, false);
 </script>
+<!-- Include the Socket.IO library -->
+<script src="https://cdn.socket.io/4.1.3/socket.io.min.js"></script>
+
+<script>
+    // Connect to the Flask server's Socket.IO endpoint
+    const socket = io('http://your-flask-server-address');
+
+    // Listen for the 'battery_status' event
+    socket.on('battery_status', function (batteryStatus) {
+        console.log('Battery Status:', batteryStatus);
+        // Handle the battery status as needed (update UI, etc.)
+    });
+</script>
+
 @endsection
