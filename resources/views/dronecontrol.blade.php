@@ -59,6 +59,7 @@
     <br/>
     <div class="row justify-content-center">
         <div class="col-md-8">
+        <h2> Monitor Drone </h2>
             <img id="video-stream" src="http://127.0.0.1:5000/video_feed" alt="Video Stream is not available, drone is disconnected" width="760" height="520">
         </div>
         <div class="col-md-4 " >
