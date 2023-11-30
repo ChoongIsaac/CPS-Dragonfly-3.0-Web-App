@@ -23,7 +23,7 @@
                         </div>
 
                         <div class="col-sm-1" style='margin-left:4%;' >
-                            <button type="button" class="btn btn-danger" id="land" data-toggle="modal" data-target="#scan_result_modal"><i class="fa fa-stop"></i> Land </button>
+                            <button type="button" class="btn btn-danger" id="land" data-toggle="modal" ><i class="fa fa-stop"></i> Land </button>
                         </div>
  
                         
@@ -39,17 +39,22 @@
                     <table id="example" class="table table-hover table-sm nowrap" style="width:100%">
                         <thead class="thead-dark" style='text-align: center'>
                             <tr>
-                                <th style="width:20%">Drone's battery</th>
-                                <th style="width:40%">Drone's Connection</th>
-                                <th style="width:40%">Drone's Altitude</th>
+                                <th style="width:50%">Detected QR Codes</th>
+                                <th style="width:50%">Dectected time</th>
+                                
                             </tr>
                         </thead>
-                        <tbody id="drone" style='text-align: center'>
-
+                        <tbody id="result" style='text-align: center'>
+                                
                         </tbody>
                     </table>
 
                     <span id="response"></span>
+                    <div class="container row">
+                        <div class="col-sm-1" style='margin-left:90%;' >
+                            <button type="button" class="btn btn-success" id="upload" ><a class="text text-light text-decoration-none" href=""><i class="fas fa-cloud-upload-alt"></i> Upload</a></button>
+                        </div>
+                    </div>
 
                 </div>
             </div>
@@ -169,7 +174,63 @@ window.addEventListener("keydown", function(e) {
         e.preventDefault();
     }
 }, false);
+
+
+
+var videoStream = document.getElementById("video-stream");
+        var detectedBarcodes = [];
+        //var barcodeList = document.getElementById("barcode-list");
+        var tableBody = document.getElementById("result");
+
+            function updateBarcode() {
+                fetch("http://127.0.0.1:5000/read_scan_code")
+                    .then(response => response.text())
+                    .then(data => {
+                        if (data.trim() !== "") {
+                            if (!detectedBarcodes.includes(data)) {
+                                detectedBarcodes.push(data);
+                                
+                                 // Create a new table row
+                                var row = tableBody.insertRow(0);
+
+                                // Create cells for QR Codes and Detected time
+                                var cell1 = row.insertCell(0);
+                                var cell2 = row.insertCell(1);
+
+                                // Set the text content of the cells
+                                cell1.textContent = data;
+                                cell2.textContent = new Date().toLocaleTimeString();
+                            }
+                        }
+                    });
+
+            }
+        
+        // Update barcode data every 1 second
+        setInterval(updateBarcode, 1000);
+        console.log(detectedBarcodes);
+
+        // Reset detectedBarcodes array when the page is unloaded (refresh button clicked)
+        window.addEventListener('unload', function() {
+            detectedBarcodes = [];
+            
+            const reset = fetch('http://127.0.0.1:5000/reset_scan_code', {
+                method: 'POST',
+                async: false,  // Make the request synchronous
+            });
+
+            if (reset.ok) {
+                console.log('QR reset');
+            } else {
+                console.error('Failed to reset frame');
+            }
+
+            
+        });
 </script>
+
+
+
 <!-- Include the Socket.IO library -->
 <script src="https://cdn.socket.io/4.1.3/socket.io.min.js"></script>
 
