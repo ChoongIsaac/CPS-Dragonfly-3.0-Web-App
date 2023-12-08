@@ -14,9 +14,8 @@
                             <tr>
                                 <th>No</th>
                                 <th>@sortablelink('item_name', 'Item Name', ['filter' => 'active, visible'], ['class' => 'text text-light text-decoration-none'])</th>
-                                <th>@sortablelink('quantity', 'Quantity', ['filter' => 'active, visible'], ['class' => 'text text-light text-decoration-none'])</th>
-                                <th>@sortablelink('customer', 'Customer', ['filter' => 'active, visible'], ['class' => 'text text-light text-decoration-none'])</th>
-                                <th>@sortablelink('location', 'Location', ['filter' => 'active, visible'], ['class' => 'text text-light text-decoration-none'])</th>
+                                <th>@sortablelink('item_code', 'Item_code', ['filter' => 'active, visible'], ['class' => 'text text-light text-decoration-none'])</th>
+                                <th>@sortablelink('command', 'Command', ['filter' => 'active, visible'], ['class' => 'text text-light text-decoration-none'])</th>
                                 <th>@sortablelink('status', 'Status', ['filter' => 'active, visible'], ['class' => 'text text-light text-decoration-none'])</th>
                                 <th>Manage</th>
                             </tr>
@@ -29,9 +28,8 @@
                             <tr>
                                 <td>{{$i++}}</td>
                                 <td>{{$item['item_name']}}</td>
-                                <td>{{$item['quantity']}}</td>
-                                <td>{{$item['customer']}}</td>
-                                <td>{{$item['location']}}</td>
+                                <td>{{$item['item_code']}}</td>
+                                <td>{{$item['command']}}</td>
                                 <td>
                                     @if($item['status']=='Available')
                                     <span class="badge badge-success"> {{$item['status']}}</span>

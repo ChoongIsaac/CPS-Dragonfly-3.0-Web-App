@@ -12,7 +12,6 @@ class DroneController extends Controller
     {
 
         if(Auth::check()){
-            //$items = Item::all()->whereIn('status', ['Available', 'Unresolved' , 'Lost']);
             return view('dronecontrol');
         }
   

@@ -57,14 +57,14 @@ class ItemController extends Controller
     public function postAddItem(Request $request){
 
         $request->validate([
-            'rfid_id' => 'unique:items',
+            'item_code' => 'unique:items',
         ]);
             
         $data = $request->all();
         $check = $this->create($data);
 
-        $rfid_id=$data['rfid_id'];
-        $item = Item::where('rfid_id', $rfid_id)->first();
+        $item_code=$data['item_code'];
+        $item = Item::where('item_code', $item_code)->first();
     
         $id = $item['id'];
         return redirect()->route('viewitem', [$id]);
@@ -79,14 +79,14 @@ class ItemController extends Controller
     {
       return Item::create([
         'item_name' => $data['item_name'],
-        'rfid_id' => $data['rfid_id'],
-        'quantity' => $data['quantity'],
-        'customer' => $data['customer'],
-        'location' => '-',
-        'checkInDate' => $data['checkInDate'],
-        'checkOutDate' => $data['checkOutDate'],
+        'item_code' => $data['item_code'],
+        // 'quantity' => $data['quantity'],
+        'command' => $data['command'],
+        // 'location' => '-',
+        // 'checkInDate' => $data['checkInDate'],
+        // 'checkOutDate' => $data['checkOutDate'],
         'status' => 'Available',
-        'release' => 'On time'
+        // 'release' => 'On time'
       ]);
     }
 
@@ -117,13 +117,13 @@ class ItemController extends Controller
         $data = Item::find($request->id);
 
         $data->item_name=$request->item_name;
-        $data->rfid_id=$request->rfid_id;
-        $data->quantity=$request->quantity;
-        $data->customer=$request->customer;
-        $data->location=$request->location;
+        $data->item_code=$request->item_code;
+        // $data->quantity=$request->quantity;
+        $data->command=$request->command;
+        // $data->location=$request->location;
         $data->status=$request->status;
-        $data->checkInDate=$request->checkInDate;
-        $data->checkOutDate=$request->checkOutDate;
+        // $data->checkInDate=$request->checkInDate;
+        // $data->checkOutDate=$request->checkOutDate;
 
         $data->save();
 

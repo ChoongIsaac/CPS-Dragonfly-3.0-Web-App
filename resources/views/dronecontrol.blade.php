@@ -12,10 +12,12 @@
                 
                     <div class="container row">
 
-                    {{ __('Drone Control') }}
+                    {{ __('Drone Control') }} 
+
+                        <button type="button" class="btn btn-outline-info btn-sm" style="width:2rem; height:2rem; padding-right:0.2rem;" data-toggle="modal" data-target="#info_modal" ><i class="fa fa-info"></i></button>
 
                         <div class="col-sm-1 offset-md-4" >
-                            <button type="button" class="btn btn-primary" id="test"><i class="fa fa-plus"></i> Test </button>
+                            <button type="button" class="btn btn-primary" id="test"><i class="fas fa-ruler"></i>Test </button>
                         </div>
 
                         <div class="col-sm-1" style='margin-left:10%;' >
@@ -28,13 +30,13 @@
  
                         
                         <div class="col-sm-1" style='margin-left:4%;'>
-                            <button type="button" class="btn btn-danger" id="arm" style='margin-right:10%;'><i class="fa fa-undo"></i> Arm </button>
+                            <button type="button" class="btn btn-danger" id="qr_control" style='margin-right:10%;'><i class="fas fa-qrcode "></i> QR Guided</button>
                         </div>
                         
                     </div>
 
                 </div>
-                
+                <span id="response"></span>
                 <div class="card-body">
                     <table id="example" class="table table-hover table-sm nowrap" style="width:100%">
                         <thead class="thead-dark" style='text-align: center'>
@@ -49,7 +51,7 @@
                         </tbody>
                     </table>
 
-                    <span id="response"></span>
+                    
                     <div class="container row">
                         <div class="col-sm-1" style='margin-left:90%;' >
                             <button type="button" class="btn btn-success" id="upload" ><a class="text text-light text-decoration-none" href=""><i class="fas fa-cloud-upload-alt"></i> Upload</a></button>
@@ -72,6 +74,37 @@
         </div>
     </div>
 
+    <div class="modal fade" id="info_modal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+    <div class="modal-dialog modal-dialog-centered modal-lg">
+        <div class="modal-content">
+        <div class="modal-header">
+                    <h5 class="modal-title">How to control your drone?</h5>
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                        <span aria-hidden="true">&times;</span>
+                    </button>
+                </div>
+                <div class="modal-body">
+                <div id="drone-instructions">
+                        <ul>
+                            <li>Press Arrow UP to move forward</li>
+                            <li>Press Arrow DOWN to move backward</li>
+                            <li>Press Arrow LEFT to move left</li>
+                            <li>Press Arrow RIGHT to move right</li>
+                            <li>Press I to move upward</li>
+                            <li>Press k to move downward</li>
+                            <li>Press J to rotate left</li>
+                            <li>Press L to rotate right</li>
+                        </ul>
+                    <p> Please put the drone to x cm away to get optimized scanning</p>
+                </div>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-dismiss="modal">Cancel</button>
+                </div>
+        </div>
+        </div>
+    </div>
+    </div>
 </div>
 <script>
     document.getElementById('takeoff').addEventListener('click', async function() {
@@ -109,11 +142,36 @@
 
             // Handle the response data if needed
             console.log(data);
-            document.getElementById('response').innerText = 'Takeoff request sent!';
+            document.getElementById('response').innerText = 'Land request sent!';
         } catch (error) {
             // Handle errors
             console.error('Error:', error);
-            document.getElementById('response').innerText = 'Error sending takeoff request';
+            document.getElementById('response').innerText = 'Error sending LANDING request';
+        }
+    });
+
+    document.getElementById('qr_control').addEventListener('click', async function() {
+        event.preventDefault();
+
+        try {
+            // Make an asynchronous POST request to the takeoff endpoint
+            const response = await fetch('http://127.0.0.1:5000/qrcode_control', {
+                method: 'POST',
+            //     headers: {
+            //     'Content-Type': 'application/json', 
+            // },
+            
+            });
+
+            // const data = await response.json();
+
+            // Handle the response data if needed
+            // console.log(data);
+            document.getElementById('response').innerText = 'QR_CONTROL request sent!';
+        } catch (error) {
+            // Handle errors
+            console.error('Error:', error);
+            document.getElementById('response').innerText = 'Error sending QR_CONTROL request';
         }
     });
 
@@ -207,7 +265,8 @@ var videoStream = document.getElementById("video-stream");
             }
         
         // Update barcode data every 1 second
-        setInterval(updateBarcode, 1000);
+         setInterval(updateBarcode, 1000);
+        
         console.log(detectedBarcodes);
 
         // Reset detectedBarcodes array when the page is unloaded (refresh button clicked)

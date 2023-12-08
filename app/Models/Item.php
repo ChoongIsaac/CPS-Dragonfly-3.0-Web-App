@@ -18,22 +18,23 @@ class Item extends Model
     protected $fillable = [
 
         'item_name',
-        'rfid_id',
-        'quantity',
-        'customer',
-        'location',
-        'checkInDate',
-        'checkOutDate',
-        'release',
+        'item_code',
+        // 'quantity',
+        'command',
+        // 'location',
+        // 'checkInDate',
+        // 'checkOutDate',
+        // 'release',
         'status',
     ];
     
     public $sortable = [
 
         'item_name',
-        'quantity',
-        'customer',
-        'location',
+        'item_code',
+        // 'quantity',
+        'command',
+        // 'location',
         'status',
     ];
 }

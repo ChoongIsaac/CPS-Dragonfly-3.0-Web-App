@@ -16,28 +16,24 @@
                             <strong>{{$item->item_name}}</strong>
                         </div>
 
-                        <div class="col-12 col-sm-6 pb-5">
-                            <h6>Quantity</h6>
-                            <strong>{{$item->quantity}}</strong>
-                        </div>
-                    </div>
+                      
 
                     <div class="row">
                         <div class="col-12 col-sm-6 pb-5">
                             <h6>Item Code</h6>
-                            <strong>{{$item->rfid_id}}</strong>
+                            <strong>{{$item->item_code}}</strong>
                         </div>
-                        <div class="col-12 col-sm-6 pb-5">
-                            <h6>Location</h6>
-                            <strong>{{$item->location}}</strong>
-                        </div>
+                       
                     </div>
-
                     <div class="row">
                         <div class="col-12 col-sm-6 pb-5">
-                            <h6>Customer</h6>
-                            <strong>{{$item->customer}}</strong>
+                            <h6>Command</h6>
+                            <strong>{{$item->command}}</strong>
                         </div>
+                       
+                    </div>
+
+    
                         <div class="col-12 col-sm-6 pb-5">
                             <h6>Status</h6>
                             @if($item['status']=='Available')
@@ -52,16 +48,7 @@
                         </div>
                     </div>
 
-                    <div class="row">
-                    <div class="col-12 col-sm-6 pb-5">
-                            <h6>Check In Date</h6>
-                            <strong>{{date('d-m-Y h:i A', strtotime($item->checkInDate))}}</strong>
-                        </div>
-                        <div class="col-12 col-sm-6 pb-5">
-                            <h6>Check Out Date</h6>
-                            <strong>{{date('d-m-Y h:i A', strtotime($item->checkOutDate))}}</strong>
-                        </div>
-                    </div>
+                   
                 </div>
             </div>
 
@@ -118,31 +105,15 @@
                         <div class="form-group row">
                             <label class="col-sm-3 col-form-label">Item Code</label>
                             <div class="col-sm-9">
-                                <input type="hex" id="rfid_id"name="rfid_id" class="form-control" style="text-transform:uppercase" oninput="this.value = this.value.toUpperCase()" pattern="[A-Fa-f0-9]{24,24}" maxlength="24" title="Must contain exactly 24 hexadecimal characters" value="{{$item->rfid_id}}" required/>
-                                @if ($errors->has('rfid_id'))
-                                    <span class="text-danger">{{ $errors->first('rfid_id') }}</span>
-                                @endif
+                            <input type="text" id="item_code" name="item_code" class="form-control" style="text-transform:uppercase" oninput="this.value = this.value.toUpperCase()"  maxlength="24" title="Maximum 24 characters" value="{{$item->item_code}}" required/>
+                                
                             </div>
                         </div>
 
                         <div class="form-group row">
-                            <label class="col-sm-3 col-form-label">Quantity</label>
+                        <label class="col-sm-3 col-form-label">Command</label>
                             <div class="col-sm-9">
-                                <input type="number" id="quantity" name="quantity" class="form-control" value="{{$item->quantity}}" required/>
-                            </div>
-                        </div>
-
-                        <div class="form-group row">
-                            <label class="col-sm-3 col-form-label">Customer</label>
-                            <div class="col-sm-9">
-                                <input type="text" id="customer" name="customer" class="form-control" value="{{$item->customer}}" required/>
-                            </div>
-                        </div>
-
-                        <div class="form-group row">
-                            <label class="col-sm-3 col-form-label">Location</label>
-                            <div class="col-sm-9">
-                                <input type="text" id="location" name="location" class="form-control" value="{{$item->location}}" required/>
+                                <input type="text" id="command" name="command" class="form-control" value="{{$item->command}}" required/>
                             </div>
                         </div>
 
@@ -157,19 +128,7 @@
                             </div>
                         </div>
 
-                        <div class="form-group row">
-                            <label class="col-sm-3 col-form-label">Check In Date</label>
-                            <div class="col-sm-9">
-                                <input type="datetime-local" id="checkInDate" name="checkInDate" class="form-control" value="{{date('Y-m-d\TH:i', strtotime($item->checkInDate))}}" required/>
-                            </div>
-                        </div>
-
-                        <div class="form-group row">
-                            <label class="col-sm-3 col-form-label">Check Out Date</label>
-                            <div class="col-sm-9">
-                                <input type="datetime-local" id="checkOutDate" name="checkOutDate" class="form-control" value="{{date('Y-m-d\TH:i', strtotime($item->checkOutDate))}}" required/>
-                            </div>
-                        </div>
+                       
                     </div>
 
                 <div class="modal-footer">

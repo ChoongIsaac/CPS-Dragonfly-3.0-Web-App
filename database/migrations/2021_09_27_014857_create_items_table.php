@@ -16,14 +16,15 @@ class CreateItemsTable extends Migration
         Schema::create('items', function (Blueprint $table) {
             $table->id();
             $table->string('item_name');
-            $table->string('rfid_id');
-            $table->integer('quantity');
-            $table->string('customer');
-            $table->string('location');
-            $table->dateTime('checkInDate');
-            $table->dateTime('checkOutDate');
+            $table->string('item_code');
+            // $table->integer('quantity');
+            $table->string('command');
+            // $table->string('customer');
+            // $table->string('location');
+            // $table->dateTime('checkInDate');
+            // $table->dateTime('checkOutDate');
             $table->string('status');
-            $table->string('release');
+            // $table->string('release');
         });
     }
 

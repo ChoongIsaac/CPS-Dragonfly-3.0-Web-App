@@ -23,37 +23,15 @@
                             <div class="form-group row">
                                 <label class="col-sm-3 col-form-label">Item Code</label>
                                 <div class="col-sm-9">
-                                    <input type="text" id="rfid_id" name="rfid_id" class="form-control" style="text-transform:uppercase" oninput="this.value = this.value.toUpperCase()" pattern="[A-Fa-f0-9]{0,24}" maxlength="24" title="Must contain exactly 24 hexadecimal characters" value="" required/>
-                                    @if ($errors->has('rfid_id'))
-                                      <span class="text-danger">{{ $errors->first('rfid_id') }}</span>
-                                    @endif
+                                    <input type="text" id="item_code" name="item_code" class="form-control" style="text-transform:uppercase" oninput="this.value = this.value.toUpperCase()"  maxlength="24" title="Maximum 24 characters" value="" required/>
                                 </div>
                             </div>
 
+                
                             <div class="form-group row">
-                                <label class="col-sm-3 col-form-label">Quantity</label>
+                                <label class="col-sm-3 col-form-label">Command</label>
                                 <div class="col-sm-9">
-                                    <input type="number" id="quantity" name="quantity" class="form-control" value="" required/>
-                                </div>
-                            </div>
-
-                            <div class="form-group row">
-                                <label class="col-sm-3 col-form-label">Customer</label>
-                                <div class="col-sm-9">
-                                    <input type="text" id="customer" name="customer" class="form-control" value="" required/>
-                                </div>
-                            </div>
-                            <div class="form-group row">
-                                <label class="col-sm-3 col-form-label">Check In Date</label>
-                                <div class="col-sm-9">
-                                    <input type="datetime-local" id="checkInDate" name="checkInDate" class="form-control" value="" required/>
-                                </div>
-                            </div>
-
-                            <div class="form-group row">
-                                <label class="col-sm-3 col-form-label">Check Out Date</label>
-                                <div class="col-sm-9">
-                                    <input type="datetime-local" id="checkOutDate" name="checkOutDate" class="form-control" value="" required/>
+                                    <input type="text" id="command" name="command" class="form-control" value="" />
                                 </div>
                             </div>
 

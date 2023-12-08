@@ -67,34 +67,15 @@
         </tr>
         <tr>
             <th>Item Code</th>
-            <td>{{$item->rfid_id}}</td>
+            <td>{{$item->item_code}}</td>
         </tr>
-        <tr>
-            <th>Quantity</th>
-            <td>{{$item->quantity}}</td>
-        </tr>
-        <tr>
-            <th>Customer</th>
-            <td>{{$item->customer}}</td>
-        </tr>
-        <tr>
-            <th>Location</th>
-            <td></td>
-        </tr>
-        <tr>
-            <th>Check In Date</th>
-            <td>{{date('d-m-Y h:i A', strtotime($item->checkInDate))}}</td>
-        </tr>
-        <tr>
-            <th>Check Out Date</th>
-            <td>{{date('d-m-Y h:i A', strtotime($item->checkOutDate))}}</td>
-        </tr>
-
+      
+    
     </table>
 
     <div class="square">
-        <h3 class="rfidtext"> RFID </h3>
-        <h5 class="rfidtext"> {{$item->rfid_id}} </h5>
+        <h3 class="rfidtext"> Command </h3>
+        <h5 class="rfidtext"> {{$item->command}} </h5>
     </div>
 
 </html>

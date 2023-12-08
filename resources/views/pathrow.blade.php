@@ -81,6 +81,7 @@ for (var i = 1; i <= x; i++) {
     var inputValue = $('[name="' + inputName + '"]').val();
     dynamicInputValues.push(inputValue );
 }
+document.getElementById("myForm").reset();
 
 console.log(dynamicInputValues);
     // Send data to the server using Fetch API
@@ -95,6 +96,14 @@ console.log(dynamicInputValues);
     .then(data => {
         // Handle the response from the server
         console.log(data);
+          // Clear input values in each dynamically added row
+        // for (var i = 1; i <= x; i++) {
+        //     var inputName = 'input_array_name[' + i + ']';
+        //     $('[name="' + inputName + '"]').val('');
+        // }
+        // document.getElementById("myForm").reset();
+
+
     })
     .catch(error => {
         // Handle errors if any
