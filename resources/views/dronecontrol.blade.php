@@ -54,7 +54,7 @@
                     
                     <div class="container row">
                         <div class="col-sm-1" style='margin-left:90%;' >
-                            <button type="button" class="btn btn-success" id="upload" ><a class="text text-light text-decoration-none" href=""><i class="fas fa-cloud-upload-alt"></i> Upload</a></button>
+                            <button type="button" class="btn btn-success" id="upload"data-toggle="modal" data-target="#save_result_modal" ><a class="text text-light text-decoration-none" href=""><i class="fas fa-cloud-upload-alt"></i> Upload</a></button>
                         </div>
                     </div>
 
@@ -106,6 +106,32 @@
     </div>
     </div>
 </div>
+<!-- View Scan Results Modal -->
+<div class="modal fade" id="save_result_modal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+    <div class="modal-dialog modal-dialog-centered">
+        <div class="modal-content">
+
+                <div class="modal-header">
+                    <h5 class="modal-title">Flight Completed</h5>
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                        <span aria-hidden="true">&times;</span>
+                    </button>
+                </div>
+                <div class="modal-body">
+
+                    Click Save results to see save results into database
+                    </br>
+
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-primary" onclick="" ><a class="text text-light text-decoration-none" href="scanresult"><i class="far fa-file-alt"></i> Save Results </a></button>
+                </div>
+
+        </div>
+    </div>
+</div>
+
+
 <script>
     document.getElementById('takeoff').addEventListener('click', async function() {
         event.preventDefault();
