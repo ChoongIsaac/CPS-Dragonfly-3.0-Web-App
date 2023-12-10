@@ -1,0 +1,14 @@
+[
+    {
+        "item_name": "Paper roll",
+        "item_code": "ABC123",
+        "command": "up 60",
+        "status": "Available"
+    },
+    {
+        "item_name": "Paper pallet",
+        "item_code": "XYZ789",
+        "command": "left 60",
+        "status": "Available"
+    }
+]

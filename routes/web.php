@@ -55,4 +55,8 @@ Route::get('setfound\{id}', [ScanController::class, 'setfound'])->name('setfound
 Route::get('setlost\{id}', [ScanController::class, 'setlost'])->name('setlost');
 
 Route::get('dronecontrol',[DroneController::class,'dronecontrol']);
+Route::get('saveresult',[DroneController::class,'saveResults']);
+Route::get('/missions', [DroneController::class, 'flightReview']);
+Route::get('/missions/{id}', [DroneController::class, 'showMission']);
+
 Route::post('connectrfid',[RFIDController::class,'connectRFID']);

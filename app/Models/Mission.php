@@ -15,7 +15,7 @@ class Mission extends Model
 
     public function flightDetail()
     {
-        return $this->hasOne(FlightDetail::class);
+        return $this->hasMany(FlightDetail::class);
     }
 
     public static function boot()

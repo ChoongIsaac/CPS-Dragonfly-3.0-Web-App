@@ -124,7 +124,7 @@
 
                 </div>
                 <div class="modal-footer">
-                    <button type="button" class="btn btn-primary" onclick="" ><a class="text text-light text-decoration-none" href="scanresult"><i class="far fa-file-alt"></i> Save Results </a></button>
+                    <button type="button" class="btn btn-primary" id="saveresult" onclick="" ><a class="text text-light text-decoration-none" href="scanresult"><i class="far fa-file-alt"></i> Save Results </a></button>
                 </div>
 
         </div>
@@ -200,7 +200,53 @@
             document.getElementById('response').innerText = 'Error sending QR_CONTROL request';
         }
     });
+    document.getElementById('saveresult').addEventListener('click', async function() {
+        event.preventDefault();
 
+        try {
+             // Assuming drone start and end times are stored in JavaScript variables
+             const droneStartTime = '2023-12-10 12:00:00'; // Replace with your actual value
+            const droneEndTime = '2023-12-10 13:00:00'; // Replace with your actual value
+
+            // Call the drone backend API to get the flight path
+            const droneApiResponse = await fetch('/api/get-flight-path');
+            const { flightPath } = await droneApiResponse.json();
+
+            // Get the detected barcodes from the JavaScript array
+            const detectedBarcodes = getDetectedBarcodes(); // Replace with your actual function
+
+            // Trigger API call to save results to your Laravel backend
+            const saveResponse = await fetch('/api/save-results', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json',
+                    // Add any other headers needed
+                },
+                body: JSON.stringify({
+                    start_time: droneStartTime,
+                    end_time: droneEndTime,
+                    flight_path: flightPath,
+                    detected_barcodes: detectedBarcodes,
+                    // Include any other data to be sent to the backend
+                }),
+            });
+
+            const saveResult = await saveResponse.json();
+
+            // Perform actions after saving to the database if needed
+
+            // Log or display the result of saving
+            console.log(saveResult);
+
+        } catch (error) {
+            // Handle errors
+            console.error('Error:', error);
+        }
+    });
+
+    function getDetectedBarcodes() {
+        return ['barcode1', 'barcode2', 'barcode3']; // Replace with your logic
+    }
     document.addEventListener('keydown', function(event) {
             console.log('Key pressed: ' + event.key); // Add this line
 
