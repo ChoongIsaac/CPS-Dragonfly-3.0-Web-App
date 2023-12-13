@@ -54,7 +54,7 @@
                     
                     <div class="container row">
                         <div class="col-sm-1" style='margin-left:90%;' >
-                            <button type="button" class="btn btn-success" id="upload"data-toggle="modal" data-target="#save_result_modal" ><a class="text text-light text-decoration-none" href=""><i class="fas fa-cloud-upload-alt"></i> Upload</a></button>
+                            <button type="button" class="btn btn-success" id="upload" data-toggle="modal" data-target="#save_result_modal" ><i class="fas fa-cloud-upload-alt"></i> Upload</a></button>
                         </div>
                     </div>
 
@@ -119,7 +119,7 @@
                 </div>
                 <div class="modal-body">
 
-                    Click Save results to see save results into database
+                    Click Save results to save results into database
                     </br>
 
                 </div>
@@ -133,6 +133,10 @@
 
 
 <script>
+    var droneStartTime = '';
+    var droneEndTime = '';
+    var detectedBarcodes = [];
+
     document.getElementById('takeoff').addEventListener('click', async function() {
         event.preventDefault();
 
@@ -147,6 +151,8 @@
 
             // Handle the response data if needed
             console.log(data);
+            droneStartTime = new Date().toLocaleTimeString();
+
             document.getElementById('response').innerText = 'Takeoff request sent!';
         } catch (error) {
             // Handle errors
@@ -158,14 +164,14 @@
         event.preventDefault();
 
         try {
-            // Make an asynchronous POST request to the takeoff endpoint
+            // Make an asynchronous POST request to the land endpoint
             const response = await fetch('http://127.0.0.1:5000/land', {
                 method: 'POST',
             
             });
 
             const data = await response.json();
-
+            droneEndTime = new Date().toLocaleTimeString();
             // Handle the response data if needed
             console.log(data);
             document.getElementById('response').innerText = 'Land request sent!';
@@ -201,42 +207,47 @@
         }
     });
     document.getElementById('saveresult').addEventListener('click', async function() {
-        event.preventDefault();
+         event.preventDefault();
+         const csrfToken = document.querySelector('meta[name="csrf-token"]').getAttribute('content');
+         
 
         try {
              // Assuming drone start and end times are stored in JavaScript variables
-             const droneStartTime = '2023-12-10 12:00:00'; // Replace with your actual value
-            const droneEndTime = '2023-12-10 13:00:00'; // Replace with your actual value
+            // const droneStartTime = '2023-12-10 12:00:00'; // Replace with your actual value
+            // const droneEndTime = '2023-12-10 13:00:00'; // Replace with your actual value
 
             // Call the drone backend API to get the flight path
-            const droneApiResponse = await fetch('/api/get-flight-path');
-            const { flightPath } = await droneApiResponse.json();
+            // const droneApiResponse = await fetch('http://127.0.0.1:5000/flight_path');
+            // const  flight_path = await droneApiResponse.json();
+            // console.log('flightPath:', flight_path);
 
             // Get the detected barcodes from the JavaScript array
             const detectedBarcodes = getDetectedBarcodes(); // Replace with your actual function
 
             // Trigger API call to save results to your Laravel backend
-            const saveResponse = await fetch('/api/save-results', {
+            const saveResponse = await fetch('/saveresult', {
                 method: 'POST',
                 headers: {
                     'Content-Type': 'application/json',
                     // Add any other headers needed
+                    'X-CSRF-TOKEN': csrfToken
                 },
+                
                 body: JSON.stringify({
                     start_time: droneStartTime,
                     end_time: droneEndTime,
-                    flight_path: flightPath,
+                    // flight_path: droneApiResponse,
                     detected_barcodes: detectedBarcodes,
                     // Include any other data to be sent to the backend
                 }),
             });
 
-            const saveResult = await saveResponse.json();
+            // const saveResult = await saveResponse.json();
 
             // Perform actions after saving to the database if needed
 
             // Log or display the result of saving
-            console.log(saveResult);
+            // console.log(saveResult);
 
         } catch (error) {
             // Handle errors
@@ -245,7 +256,7 @@
     });
 
     function getDetectedBarcodes() {
-        return ['barcode1', 'barcode2', 'barcode3']; // Replace with your logic
+        return detectedBarcodes; // Replace with your logic
     }
     document.addEventListener('keydown', function(event) {
             console.log('Key pressed: ' + event.key); // Add this line
@@ -308,7 +319,6 @@ window.addEventListener("keydown", function(e) {
 
 
 var videoStream = document.getElementById("video-stream");
-        var detectedBarcodes = [];
         //var barcodeList = document.getElementById("barcode-list");
         var tableBody = document.getElementById("result");
 

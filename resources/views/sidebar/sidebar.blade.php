@@ -35,7 +35,7 @@
                     <a class="nav-link pl-0" href="checkout"><i class="fa fa-truck fa-fw"></i> <span class="d-none d-md-inline">Checked Out Items</span></a>
                 </li>
                 <li class="nav-item">
-                    <a class="nav-link pl-0" href="#"><i class="fa fa-chart-pie fa-fw"></i> <span class="d-none d-md-inline">Flight Review</span></a>
+                    <a class="nav-link pl-0" href="flightreview"><i class="fa fa-chart-pie fa-fw"></i> <span class="d-none d-md-inline">Flight Review</span></a>
                 </li>
                 <li class="nav-item">
                     <a class="nav-link pl-0" href="dronecontrol"><i class="fa fa-map-marked-alt fa-fw"></i> <span class="d-none d-md-inline">Drone Control</span></a>

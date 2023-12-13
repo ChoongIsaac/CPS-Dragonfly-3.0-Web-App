@@ -14,9 +14,10 @@ class CreateFlightDetailsTable extends Migration
     public function up()
     {
         Schema::create('flight_details', function (Blueprint $table) {
-            $table->string('details_id')->primary();;
+            // $table->string('details_id')->primary();;
+            $table->id(); // This will auto-increment and serve as the primary key
             $table->string('mission_id'); 
-            $table->string('qr_code');
+            $table->string('detected_qr_code');
             $table->timestamp('detected_time');
             // $table->timestamps();
 

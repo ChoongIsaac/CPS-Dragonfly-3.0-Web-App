@@ -5,6 +5,10 @@ namespace App\Http\Controllers;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Session;
+use App\Models\Mission;
+use App\Models\FlightDetail;
+
+
 
 class DroneController extends Controller
 {
@@ -26,7 +30,7 @@ class DroneController extends Controller
             $request->validate([
                 'start_time' => 'required|date',
                 'end_time' => 'required|date',
-                'flight_path' => 'required|array',
+                // 'flight_path' => 'required|array',
                 'detected_barcodes' => 'required|array',
                 // Add any other required fields
             ]);
@@ -34,27 +38,27 @@ class DroneController extends Controller
             // Retrieve data from the request
             $startTime = $request->input('start_time');
             $endTime = $request->input('end_time');
-            $flightPath = $request->input('flight_path');
+            // $flightPath = $request->input('flight_path');
             $detectedBarcodes = $request->input('detected_barcodes');
 
             // Save results to the database
-            $flight = new Flight();
+            $flight = new Mission();
             $flight->start_time = $startTime;
             $flight->end_time = $endTime;
-            $flight->flight_path = json_encode($flightPath); // Assuming flight_path is a JSON field
+            // $flight->flight_path = json_encode($flightPath); // Assuming flight_path is a JSON field
             $flight->save();
 
             // Save scanned QR codes
             foreach ($detectedBarcodes as $barcode) {
-                $scannedQRCode = new ScannedQRCode();
+                $scannedQRCode = new FLightDetail();
                 $scannedQRCode->qr_code = $barcode;
                 $scannedQRCode->detected_time = now(); // Assuming detected_time is a timestamp field
-                $flight->scannedQRCodes()->save($scannedQRCode);
+                $flight->flightDetail()->save($scannedQRCode);
             }
 
             // Return a success response
             return response()->json(['message' => 'Results saved successfully']);
-        } catch (\Exception $e) {
+        } catch (Exception $e) {
             // Handle exceptions or errors
             return response()->json(['error' => 'Failed to save results'], 500);
         }
@@ -63,16 +67,24 @@ class DroneController extends Controller
 
     public function flightReview()
     {
-        $missions = Mission::all();
+        $allMissions = Mission::all();
 
-        return view('missions.index', compact('missions'));
+        if(Auth::check()){
+            return view('flightreview',['missions'=>$allMissions]);
+        }
+  
+        return redirect("login")->with('noaccess','Please login to access that page');
+
     }
 
     public function showMission($id)
     {
-        $mission = Mission::findOrFail($id);
+        // $missions = Mission::where('mission_id', $id)->first();
+        $missions = Mission::with('flightDetail')
+        ->where('mission_id', $id)
+        ->first();
 
-        return view('missions.show', compact('mission'));
+        return view('viewmission', compact('missions'));
     }
 
 }
