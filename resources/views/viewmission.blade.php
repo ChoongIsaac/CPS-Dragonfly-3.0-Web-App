@@ -13,19 +13,21 @@
                 <div class="card-body">
                     
                     <div class="row">
-                        <div class="col-12 col-sm-6 pb-5">
+                        <div class="col-12 col-sm-4 pb-5">
                             <h6>Mission ID</h6>
                             <strong>{{$missions->mission_id}}</strong>
                         </div>
 
                       
 
-                    <div class="row">
-                        <div class="col-12 col-sm-6 pb-5">
+                        <div class="col-12 col-sm-4 pb-5">
                             <h6>Mission Start time</h6>
                             <strong>{{$missions->start_time}}</strong>
                         </div>
-                       
+                        <div class="col-12 col-sm-4 pb-5">
+                            <h6>Mission End time</h6>
+                            <strong>{{$missions->end_time}}</strong>
+                        </div>
                     </div>
                     <div class="row">
                         <div class="col-12 col-sm-6 pb-5">
@@ -36,23 +38,34 @@
                     </div>
 
     
-                        <div class="col-12 col-sm-6 pb-5">
-                            <h6>Detected QR Codes</h6>
-                            
-                            <strong>{{$missions}}</strong>
-                           
+                    <div class="card-body">
+                        <table id="example" class="table table-hover table-sm nowrap" style="width:100%">
+                        <thead class="thead-dark" style='text-align: center'>
+                             <tr>
+                                 <th style="width:50%">Detected QR Codes</th>
+                                 <th style="width:50%">Detected Time</th>
+                             </tr>
+                        </thead>
+                        <tbody id="result" style='text-align: center'>
+                        @if (!$missions->flightDetail->isEmpty())
 
-                            
-                        </div>
-
-                        <div class="col-12 col-sm-6 pb-5">
-                            <h6>Detected time</h6>
-                            
-                        </div>
+                            @foreach ($missions->flightDetail as $flightDetail)
+                                <tr>
+                                <td>{{ $flightDetail->detected_qr_code }}</td>
+                                <td>{{ $flightDetail->detected_time }}</td>
+                                </tr>
+                            @endforeach
+                        @else
+                        <tr>
+                                <td>No detected QR code during the flight</td>
+                                <td>N/A</td>
+                                </tr>
+                        @endif
+                        </tbody>
+                        </table>
                     </div>
 
                    
-                </div>
             </div>
 
             <div class="container row" style='padding-top:1rem;'>
