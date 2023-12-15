@@ -49,18 +49,19 @@
                         <tbody id="result" style='text-align: center'>
                         @if (!$missions->flightDetail->isEmpty())
 
-                            @foreach ($missions->flightDetail as $flightDetail)
-                                <tr>
-                                <td>{{ $flightDetail->detected_qr_code }}</td>
-                                <td>{{ $flightDetail->detected_time }}</td>
-                                </tr>
-                            @endforeach
-                        @else
-                        <tr>
-                                <td>No detected QR code during the flight</td>
-                                <td>N/A</td>
-                                </tr>
-                        @endif
+@foreach ($missions->flightDetail as $flightDetail)
+    <tr>
+    <td>{{ $flightDetail->detected_qr_code }}</td>
+    <td>{{ $flightDetail->detected_time }}</td>
+    </tr>
+@endforeach
+@else
+<tr>
+    <td>No detected QR code during the flight</td>
+    <td>N/A</td>
+    </tr>
+@endif
+                       
                         </tbody>
                         </table>
                     </div>

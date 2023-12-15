@@ -19,12 +19,12 @@ class FlightDetail extends Model
         return $this->belongsTo(Mission::class);
     }
 
-    public static function boot()
-    {
-        parent::boot();
+    // public static function boot()
+    // {
+    //     parent::boot();
 
-        // static::creating(function ($model) {
-        //     $model->code = 'FLG' . str_pad(self::max('id') + 1, 3, '0', STR_PAD_LEFT);
-        // });
-    }
+    //     // static::creating(function ($model) {
+    //     //     $model->code = 'FLG' . str_pad(self::max('id') + 1, 3, '0', STR_PAD_LEFT);
+    //     // });
+    // }
 }

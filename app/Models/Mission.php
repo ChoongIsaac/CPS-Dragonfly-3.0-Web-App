@@ -25,14 +25,20 @@ class Mission extends Model
         return $this->hasMany(FlightDetail::class, 'mission_id');
     }
 
-    public static function boot()
-    {
-        parent::boot();
+    // public static function boot()
+    // {
+    //     parent::boot();
 
-        static::creating(function ($model) {
-            // $model->mission_id = 'MSN' . str_pad((int)self::max('mission_id') + 1, 3, '0', STR_PAD_LEFT);
-            $model->mission_id = 'MSN' . str_pad((int) self::max('mission_id') + 1, 3, '0', STR_PAD_LEFT);
+    //     // static::creating(function ($model) {
+    //     //     // $model->mission_id = 'MSN' . str_pad((int)self::max('mission_id') + 1, 3, '0', STR_PAD_LEFT);
+    //     //     $model->mission_id = 'MSN' . str_pad((int) self::max('mission_id') + 1, 3, '0', STR_PAD_LEFT);
 
-        });
-    }
+    //     //     // do {
+    //     //     //     $generatedId = 'MSN' . str_pad((int)self::max('mission_id') + 1, 3, '0', STR_PAD_LEFT);
+    //     //     // } while (self::where('mission_id', $generatedId)->exists());
+
+    //     //     // $model->mission_id = $generatedId;
+
+    //     // });
+    // }
 }

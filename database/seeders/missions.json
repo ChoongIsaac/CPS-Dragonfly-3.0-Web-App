@@ -1,7 +1,7 @@
 [
     {
         "mission": {
-            "mission_id": "MSN001",  
+            "mission_id": "MSN013",
             "start_time": "2023-01-01 10:00:00",
             "end_time": "2023-01-01 12:00:00",
             "flight_path": ["takeoff", "up 20", "right 20", "down 20", "land"]
@@ -15,7 +15,20 @@
                 "detected_qr_code": "QR456",
                 "detected_time": "2023-01-01 11:30:00"
             }
-           
+        ]
+    },
+    {
+        "mission": {
+            "mission_id": "MSN014",
+            "start_time": "2023-01-02 11:00:00",
+            "end_time": "2023-01-02 13:00:00",
+            "flight_path": ["takeoff", "down 10", "left 30", "land"]
+        },
+        "flight_details": [
+            {
+                "detected_qr_code": "QR789",
+                "detected_time": "2023-01-02 11:30:00"
+            }
         ]
     }
 ]

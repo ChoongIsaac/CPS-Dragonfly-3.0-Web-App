@@ -14,6 +14,7 @@ class CreateMissionsTable extends Migration
     public function up()
     {
         Schema::create('missions', function (Blueprint $table) {
+            // $table->id(); // This creates an auto-incrementing primary key
             $table->string('mission_id')->primary(); 
             $table->timestamp('start_time');
             $table->timestamp('end_time')->nullable();

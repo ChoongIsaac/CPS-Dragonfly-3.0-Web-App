@@ -7,7 +7,7 @@ use Illuminate\Support\Facades\Auth;
 use Session;
 use App\Models\Mission;
 use App\Models\FlightDetail;
-
+use Illuminate\Support\Facades\DB;
 
 
 class DroneController extends Controller
@@ -80,9 +80,14 @@ class DroneController extends Controller
     public function showMission($id)
     {
         // $missions = Mission::where('mission_id', $id)->first();
+
         $missions = Mission::with('flightDetail')
         ->where('mission_id', $id)
         ->first();
+    //     $missions = DB::table('missions')
+    // ->leftJoin('flight_details', 'missions.mission_id', '=', 'flight_details.mission_id')
+    // ->select('missions.*', 'flight_details.detected_qr_code', 'flight_details.detected_time')
+    // ->where('missions.mission_id', $id)->get();
 
         return view('viewmission', compact('missions'));
     }
