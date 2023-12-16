@@ -102,7 +102,11 @@ console.log(dynamicInputValues);
         // Handle errors if any
         console.error(error);
     });
+    startTime = new Date();
+    droneStartTime = formatDateTime(startTime);
+
 });
+
 
 
 </script>

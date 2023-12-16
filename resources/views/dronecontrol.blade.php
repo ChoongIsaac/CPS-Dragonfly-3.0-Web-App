@@ -17,6 +17,27 @@
             padding: 10px;
         }
     </style>
+
+<script>
+    var droneStartTime = "{{ $droneStartTime }}";
+    var droneEndTime = '';
+    var detectedBarcodes = [];
+    var detectedTimes = [];
+    var detectedBarcodesWithTime = [];
+
+    function formatDateTime(date) {
+  const year = date.getFullYear();
+  const month = String(date.getMonth() + 1).padStart(2, '0');
+  const day = String(date.getDate()).padStart(2, '0');
+  const hours = String(date.getHours()).padStart(2, '0');
+  const minutes = String(date.getMinutes()).padStart(2, '0');
+  const seconds = String(date.getSeconds()).padStart(2, '0');
+
+  return `${year}-${month}-${day} ${hours}:${minutes}:${seconds}`;
+}
+
+
+</script>
 <div style="padding-top:30px;" class="container">
     <div class="row justify-content-center">
         <div class="container">
@@ -146,23 +167,7 @@
 
 
 <script>
-    var droneStartTime = '';
-    var droneEndTime = '';
-    var detectedBarcodes = [];
-    var detectedTimes = [];
-    var detectedBarcodesWithTime = [];
-
-    function formatDateTime(date) {
-  const year = date.getFullYear();
-  const month = String(date.getMonth() + 1).padStart(2, '0');
-  const day = String(date.getDate()).padStart(2, '0');
-  const hours = String(date.getHours()).padStart(2, '0');
-  const minutes = String(date.getMinutes()).padStart(2, '0');
-  const seconds = String(date.getSeconds()).padStart(2, '0');
-
-  return `${year}-${month}-${day} ${hours}:${minutes}:${seconds}`;
-}
-
+   
     document.getElementById('takeoff').addEventListener('click', async function() {
         event.preventDefault();
 
@@ -453,6 +458,7 @@ var videoStream = document.getElementById("video-stream");
 
             
         });
+
 </script>
 
 

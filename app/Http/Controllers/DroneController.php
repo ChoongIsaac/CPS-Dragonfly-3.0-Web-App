@@ -12,11 +12,14 @@ use Illuminate\Support\Facades\DB;
 
 class DroneController extends Controller
 {
+
     public function dronecontrol()
     {
+        $droneStartTime = "2023-01-01 10:00:00"; // Replace this with your actual variable
+
 
         if(Auth::check()){
-            return view('dronecontrol');
+            return view('dronecontrol',compact('droneStartTime'));
         }
   
         return redirect("login")->with('noaccess','Please login to access that page');
