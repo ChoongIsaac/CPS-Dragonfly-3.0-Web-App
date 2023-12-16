@@ -24,46 +24,56 @@ class DroneController extends Controller
     }
 
     public function saveResults(Request $request)
-    {
-        try {
-            // Validate the request data
-            $request->validate([
-                'start_time' => 'required|date',
-                'end_time' => 'required|date',
-                // 'flight_path' => 'required|array',
-                'detected_barcodes' => 'required|array',
-                // Add any other required fields
+{
+    try {
+        $requestData = $request->json()->all();
+
+        // Validate the request data
+        // Add validation rules as needed
+        // $validator = Validator::make($requestData, [
+        //     'mission.mission_id' => 'required|string',
+        //     'mission.start_time' => 'required|date',
+        //     'mission.end_time' => 'required|date',
+        //     'mission.flight_path' => 'required|array',
+        //     'flight_details' => 'required|array',
+        //     // Add any other required fields
+        // ]);
+
+        // if ($validator->fails()) {
+        //     return response()->json(['error' => $validator->errors()], 400);
+        // }
+
+        // Retrieve data from the request
+        $missionData = $requestData['mission'];
+        $flightDetailsData = $requestData['flight_details'];
+
+        // Save mission data to the database
+        $mission = Mission::create([
+            'mission_id' => $missionData['mission_id'],
+            'start_time' => $missionData['start_time'],
+            'end_time' => $missionData['end_time'],
+            'flight_path' => $missionData['flight_path']
+            // 'flight_path' => json_encode($missionData['flight_path']), // Assuming flight_path is an array
+        ]);
+        $created_mission = Mission::where('mission_id', $missionData['mission_id'])->first();
+
+        // Save flight details
+        foreach ($flightDetailsData as $flightDetail) {
+            FlightDetail::create([
+                'mission_id' => $created_mission->mission_id,
+                'detected_qr_code' => $flightDetail['detected_qr_code'],
+                'detected_time' => $flightDetail['detected_time'],
             ]);
-
-            // Retrieve data from the request
-            $startTime = $request->input('start_time');
-            $endTime = $request->input('end_time');
-            // $flightPath = $request->input('flight_path');
-            $detectedBarcodes = $request->input('detected_barcodes');
-
-            // Save results to the database
-            $flight = new Mission();
-            $flight->start_time = $startTime;
-            $flight->end_time = $endTime;
-            // $flight->flight_path = json_encode($flightPath); // Assuming flight_path is a JSON field
-            $flight->save();
-
-            // Save scanned QR codes
-            foreach ($detectedBarcodes as $barcode) {
-                $scannedQRCode = new FLightDetail();
-                $scannedQRCode->qr_code = $barcode;
-                $scannedQRCode->detected_time = now(); // Assuming detected_time is a timestamp field
-                $flight->flightDetail()->save($scannedQRCode);
-            }
-
-            // Return a success response
-            return response()->json(['message' => 'Results saved successfully']);
-        } catch (Exception $e) {
-            // Handle exceptions or errors
-            return response()->json(['error' => 'Failed to save results'], 500);
         }
-    
+
+        // Return a success response
+        return response()->json(['message' => 'Results saved successfully']);
+    } catch (Exception $e) {
+        // Handle exceptions or errors
+        return response()->json(['error' => 'Failed to save results'], 500);
     }
+}
+
 
     public function flightReview()
     {

@@ -3,7 +3,20 @@
 
 @section('content')
 @include('sidebar.sidebar')
+<meta name="csrf-token" content="{{ csrf_token() }}">
 
+<style>
+        .warning-banner {
+            position: fixed;
+            bottom: 0;
+            left: 0;
+            width: 100%;
+            background-color: #ffcccc;
+            color: #cc0000;
+            text-align: center;
+            padding: 10px;
+        }
+    </style>
 <div style="padding-top:30px;" class="container">
     <div class="row justify-content-center">
         <div class="container">
@@ -54,7 +67,7 @@
                     
                     <div class="container row">
                         <div class="col-sm-1" style='margin-left:90%;' >
-                            <button type="button" class="btn btn-success" id="upload" data-toggle="modal" data-target="#save_result_modal" ><i class="fas fa-cloud-upload-alt"></i> Upload</a></button>
+                            <button type="button" class="btn btn-success" id="upload" data-toggle="modal" data-target="#save_result_modal" ><i class="fas fa-cloud-upload-alt"></i> Upload</button>
                         </div>
                     </div>
 
@@ -124,7 +137,7 @@
 
                 </div>
                 <div class="modal-footer">
-                    <button type="button" class="btn btn-primary" id="saveresult" onclick="" ><a class="text text-light text-decoration-none" href="scanresult"><i class="far fa-file-alt"></i> Save Results </a></button>
+                    <button type="button" class="btn btn-primary" id="saveresult" ><a class="text text-light text-decoration-none" href="flightreview"><i class="far fa-file-alt"></i> Save Results </a></button>
                 </div>
 
         </div>
@@ -136,6 +149,19 @@
     var droneStartTime = '';
     var droneEndTime = '';
     var detectedBarcodes = [];
+    var detectedTimes = [];
+    var detectedBarcodesWithTime = [];
+
+    function formatDateTime(date) {
+  const year = date.getFullYear();
+  const month = String(date.getMonth() + 1).padStart(2, '0');
+  const day = String(date.getDate()).padStart(2, '0');
+  const hours = String(date.getHours()).padStart(2, '0');
+  const minutes = String(date.getMinutes()).padStart(2, '0');
+  const seconds = String(date.getSeconds()).padStart(2, '0');
+
+  return `${year}-${month}-${day} ${hours}:${minutes}:${seconds}`;
+}
 
     document.getElementById('takeoff').addEventListener('click', async function() {
         event.preventDefault();
@@ -151,7 +177,9 @@
 
             // Handle the response data if needed
             console.log(data);
-            droneStartTime = new Date().toLocaleTimeString();
+            startTime = new Date();
+            droneStartTime = formatDateTime(startTime);
+            console.log(droneStartTime);
 
             document.getElementById('response').innerText = 'Takeoff request sent!';
         } catch (error) {
@@ -171,7 +199,8 @@
             });
 
             const data = await response.json();
-            droneEndTime = new Date().toLocaleTimeString();
+            endTime = new Date();
+            droneEndTime = formatDateTime(endTime);
             // Handle the response data if needed
             console.log(data);
             document.getElementById('response').innerText = 'Land request sent!';
@@ -217,15 +246,15 @@
             // const droneEndTime = '2023-12-10 13:00:00'; // Replace with your actual value
 
             // Call the drone backend API to get the flight path
-            // const droneApiResponse = await fetch('http://127.0.0.1:5000/flight_path');
-            // const  flight_path = await droneApiResponse.json();
-            // console.log('flightPath:', flight_path);
+            const droneApiResponse = await fetch('http://127.0.0.1:5000/flight_path');
+            const  flight_path = await droneApiResponse.json();
+            console.log('flightPath:', flight_path);
 
             // Get the detected barcodes from the JavaScript array
             const detectedBarcodes = getDetectedBarcodes(); // Replace with your actual function
-
+            const missionId = generateMissionId();
             // Trigger API call to save results to your Laravel backend
-            const saveResponse = await fetch('/saveresult', {
+            const saveResponse = await fetch("{{ route('saveresult') }}", {
                 method: 'POST',
                 headers: {
                     'Content-Type': 'application/json',
@@ -234,11 +263,13 @@
                 },
                 
                 body: JSON.stringify({
-                    start_time: droneStartTime,
-                    end_time: droneEndTime,
-                    // flight_path: droneApiResponse,
-                    detected_barcodes: detectedBarcodes,
-                    // Include any other data to be sent to the backend
+                    mission: {
+                         mission_id: missionId,
+                         start_time: droneStartTime,
+                         end_time: droneEndTime,
+                         flight_path: flight_path
+                    },
+                    flight_details: getFlightDetailsObject().flight_detail
                 }),
             });
 
@@ -251,13 +282,54 @@
 
         } catch (error) {
             // Handle errors
+            showWarningBanner('Error:'+ error);
             console.error('Error:', error);
         }
     });
 
+    function showWarningBanner(message) {
+    // Create a div element for the warning banner
+    const warningBanner = document.createElement("div");
+    warningBanner.className = "warning-banner";
+    warningBanner.textContent = message;
+
+    // Append the warning banner to the body
+    document.body.appendChild(warningBanner);
+
+    // Set a timeout to remove the banner after a certain period (e.g., 5 seconds)
+    setTimeout(() => {
+        document.body.removeChild(warningBanner);
+    }, 5000); // Adjust the time as needed
+}
     function getDetectedBarcodes() {
         return detectedBarcodes; // Replace with your logic
     }
+
+    function getDetectedTimes(){
+        return getDetectedTimes;
+    }
+    function getFlightDetailsObject() {
+    return {
+        flight_detail: detectedBarcodesWithTime
+    };
+}
+function generateMissionId() {
+    const currentDate = new Date();
+    const day = currentDate.getDate();
+    const month = currentDate.getMonth() + 1; // Months are zero-based, so we add 1
+
+    // Pad single-digit day and month with leading zeros
+    const formattedDay = day < 10 ? `0${day}` : day;
+    const formattedMonth = month < 10 ? `0${month}` : month;
+
+    // Concatenate the formatted day and month to create the mission ID
+    const missionId = `MSN${formattedDay}${formattedMonth}`;
+
+    return missionId;
+}
+
+// Example usage
+
     document.addEventListener('keydown', function(event) {
             console.log('Key pressed: ' + event.key); // Add this line
 
@@ -329,7 +401,19 @@ var videoStream = document.getElementById("video-stream");
                         if (data.trim() !== "") {
                             if (!detectedBarcodes.includes(data)) {
                                 detectedBarcodes.push(data);
+                                time = new Date();
+                                detectedTime = formatDateTime(time);
                                 
+                                // Create a new object with detected QR code and time
+                            var barcodeObject = {
+                                detectedQrCode: data,
+                                detectedTime: detectedTime
+                            };
+
+
+                                 // Add the object to your array
+                                detectedBarcodesWithTime.push(barcodeObject);
+
                                  // Create a new table row
                                 var row = tableBody.insertRow(0);
 
@@ -339,7 +423,8 @@ var videoStream = document.getElementById("video-stream");
 
                                 // Set the text content of the cells
                                 cell1.textContent = data;
-                                cell2.textContent = new Date().toLocaleTimeString();
+                                cell2.textContent = barcodeObject.detectedTime;
+                                detectedTimes.push(barcodeObject.detectedTime);
                             }
                         }
                     });

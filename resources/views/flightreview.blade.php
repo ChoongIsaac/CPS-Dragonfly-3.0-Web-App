@@ -10,6 +10,8 @@
         <div class="container">
             <div class="card">
                 <div class="card-header">{{ __('Mission Flight Review') }}</div>
+                
+                <div class="alert alert-success" role="alert">Great Job! Check your mission record here.</div>
                 <div class="card-body">
                     <table id="example" class="table table-hover table-sm nowrap" style="width:100%">
                         <thead class="thead-dark" style='text-align: center'>

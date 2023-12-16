@@ -69,17 +69,18 @@
                    
             </div>
 
-            <div class="container row" style='padding-top:1rem;'>
-
-                <div class="clo-sm-1">
-                    <button type="button" class="btn btn-secondary"><a class="text text-light text-decoration-none" href="flightreview"><i class="fa fa-chevron-left"></i>  Back</a></button>
-                </div>
-
-
-
-            </div>
+         
 
         </div>
+        <div class="container row" style='padding-top:1rem;'>
+
+<div class="clo-sm-1">
+    <button type="button" class="btn btn-secondary"><a class="text text-light text-decoration-none" href="flightreview"><i class="fa fa-chevron-left"></i>  Back</a></button>
+</div>
+
+
+
+</div>
     </div>
 </div>
 @endsection
