@@ -17,7 +17,7 @@
                         <thead class="thead-dark" style='text-align: center'>
                             <tr>
                                 <th>No</th>
-                                <th>@sortablelink('mission_id', 'Mission_id', ['filter' => 'active, visible'], ['class' => 'text text-light text-decoration-none'])</th>
+                                <th>Mission_id</th>
                                 <th>@sortablelink('start_time', 'Start_time', ['filter' => 'active, visible'], ['class' => 'text text-light text-decoration-none'])</th>
                                 <th>View</th>
                             </tr>

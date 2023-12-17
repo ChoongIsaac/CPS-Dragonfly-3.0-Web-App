@@ -16,14 +16,27 @@
             text-align: center;
             padding: 10px;
         }
+        .success-banner {
+    position: fixed;
+    bottom: 0;
+    left: 0;
+    width: 100%;
+    background-color: #d4edda; /* Bootstrap success alert background color */
+    color: #155724; /* Bootstrap success alert text color */
+    text-align: center;
+    padding: 10px;
+    border-top: 1px solid #c3e6cb; /* Bootstrap success alert border color */
+}
+
     </style>
 
 <script>
-    var droneStartTime = "{{ $droneStartTime }}";
+    var droneStartTime = '';
     var droneEndTime = '';
     var detectedBarcodes = [];
     var detectedTimes = [];
     var detectedBarcodesWithTime = [];
+    var missionNo = "{{$missionNo}}";
 
     function formatDateTime(date) {
   const year = date.getFullYear();
@@ -35,7 +48,6 @@
 
   return `${year}-${month}-${day} ${hours}:${minutes}:${seconds}`;
 }
-
 
 </script>
 <div style="padding-top:30px;" class="container">
@@ -155,7 +167,12 @@
 
                     Click Save results to save results into database
                     </br>
+                    <div class="form-group">
+                    <label for="missionId">Mission ID:</label>
+                    <input type="text" class="form-control" id="missionId" placeholder="Enter Mission ID" required>
+                    <small class="text-danger" id="missionIdError"></small>
 
+                </div>
                 </div>
                 <div class="modal-footer">
                     <button type="button" class="btn btn-primary" id="saveresult" ><a class="text text-light text-decoration-none" href="flightreview"><i class="far fa-file-alt"></i> Save Results </a></button>
@@ -257,7 +274,15 @@
 
             // Get the detected barcodes from the JavaScript array
             const detectedBarcodes = getDetectedBarcodes(); // Replace with your actual function
-            const missionId = generateMissionId();
+            const missionIdInput = document.getElementById('missionId');
+            const missionId = missionIdInput.value;
+            // Validate Mission ID
+        if (!missionId.trim()) {
+            missionIdError.textContent = 'Mission ID is required.';
+            return;
+        } else {
+            missionIdError.textContent = ''; // Clear error message
+        }
             // Trigger API call to save results to your Laravel backend
             const saveResponse = await fetch("{{ route('saveresult') }}", {
                 method: 'POST',
@@ -278,6 +303,19 @@
                 }),
             });
 
+            if (!saveResponse.ok) {
+            throw new Error(`HTTP error! Status: ${saveResponse.status}`);
+        }
+
+        // Display success banner
+        showSuccessBanner('Request successful. Flight results saved.');
+
+        // Dismiss the modal
+        const closeButton = document.querySelector('#save_result_modal .close');
+        if (closeButton) {
+            closeButton.click();
+        }
+
             // const saveResult = await saveResponse.json();
 
             // Perform actions after saving to the database if needed
@@ -287,7 +325,7 @@
 
         } catch (error) {
             // Handle errors
-            showWarningBanner('Error:'+ error);
+            showWarningBanner(error);
             console.error('Error:', error);
         }
     });
@@ -306,6 +344,19 @@
         document.body.removeChild(warningBanner);
     }, 5000); // Adjust the time as needed
 }
+function showSuccessBanner(message) {
+    const successBanner = document.createElement("div");
+    successBanner.className = "success-banner";
+    successBanner.textContent = message;
+
+    // Append the success banner to the body
+    document.body.appendChild(successBanner);
+
+    // Remove the success banner after a few seconds (adjust the timeout as needed)
+    setTimeout(() => {
+        document.body.removeChild(successBanner);
+    }, 5000); // 5000 milliseconds (5 seconds)
+}
     function getDetectedBarcodes() {
         return detectedBarcodes; // Replace with your logic
     }
@@ -318,20 +369,7 @@
         flight_detail: detectedBarcodesWithTime
     };
 }
-function generateMissionId() {
-    const currentDate = new Date();
-    const day = currentDate.getDate();
-    const month = currentDate.getMonth() + 1; // Months are zero-based, so we add 1
 
-    // Pad single-digit day and month with leading zeros
-    const formattedDay = day < 10 ? `0${day}` : day;
-    const formattedMonth = month < 10 ? `0${month}` : month;
-
-    // Concatenate the formatted day and month to create the mission ID
-    const missionId = `MSN${formattedDay}${formattedMonth}`;
-
-    return missionId;
-}
 
 // Example usage
 

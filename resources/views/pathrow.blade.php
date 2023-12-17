@@ -84,6 +84,8 @@ for (var i = 1; i <= x; i++) {
 document.getElementById("myForm").reset();
 
 console.log(dynamicInputValues);
+startTime = new Date();
+droneStartTime = formatDateTime(startTime);
     // Send data to the server using Fetch API
     fetch('http://127.0.0.1:5000/automated', {
         method: 'POST',
@@ -102,8 +104,8 @@ console.log(dynamicInputValues);
         // Handle errors if any
         console.error(error);
     });
-    startTime = new Date();
-    droneStartTime = formatDateTime(startTime);
+    endTime = new Date();
+    droneEndTime = formatDateTime(endTime);
 
 });
 

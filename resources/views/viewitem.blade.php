@@ -11,29 +11,27 @@
                 <div class="card-body">
                     
                     <div class="row">
-                        <div class="col-12 col-sm-6 pb-5">
+                        <div class="col-12 col-sm-4 pb-5">
                             <h6>Item Name</h6>
                             <strong>{{$item->item_name}}</strong>
                         </div>
 
                       
 
-                    <div class="row">
-                        <div class="col-12 col-sm-6 pb-5">
+                        <div class="col-12 col-sm-4 pb-5">
                             <h6>Item Code</h6>
                             <strong>{{$item->item_code}}</strong>
                         </div>
                        
-                    </div>
-                    <div class="row">
-                        <div class="col-12 col-sm-6 pb-5">
+                        <div class="col-12 col-sm-4 pb-5">
                             <h6>Command</h6>
                             <strong>{{$item->command}}</strong>
                         </div>
                        
                     </div>
 
-    
+                    <div class="row">
+
                         <div class="col-12 col-sm-6 pb-5">
                             <h6>Status</h6>
                             @if($item['status']=='Available')
