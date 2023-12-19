@@ -236,6 +236,8 @@
 
     document.getElementById('qr_navigate').addEventListener('click', async function() {
         event.preventDefault();
+        startTime = new Date();
+        droneStartTime = formatDateTime(startTime);
 
         try {
             // Make an asynchronous POST request to the takeoff endpoint
@@ -257,8 +259,145 @@
             console.error('Error:', error);
             document.getElementById('response').innerText = 'Error sending QR_CONTROL request';
         }
+        endTime = new Date();
+        droneEndTime = formatDateTime(endTime);
     });
-    document.getElementById('saveresult').addEventListener('click', async function() {
+   
+
+// Example usage
+
+    document.addEventListener('keydown', function(event) {
+            console.log('Key pressed: ' + event.key); // Add this line
+
+            var command = '';
+            switch (event.key) {
+                case 'ArrowUp':
+                    command = 'move_forward';
+                    break;
+                case 'ArrowDown':
+                    command = 'move_backward';
+                    break;
+                case 'ArrowLeft':
+                    command = 'move_left';
+                    break;
+                case 'ArrowRight':
+                    command = 'move_right';
+                    break;
+                case 'i':
+                    command = 'move_up';
+                    break;
+                case 'k':
+                    command = 'move_down';
+                    break;
+                case 'j':
+                    command = 'rotate_left';
+                    break;
+                case 'l':
+                    command = 'rotate_right';
+                    break;
+            }
+
+            if (command) {
+                fetch('http://127.0.0.1:5000/send_command', {
+                        method: 'POST',
+                        headers: {
+                            'Content-Type': 'application/json'
+                        },
+                        body: JSON.stringify({
+                            command: command
+                        })
+                    })
+                    .then(response => {
+                        if (response.ok) {
+                            console.log('Command sent: ' + command);
+                        } else {
+                            console.error('Failed to send command: ' + command);
+                        }
+                    });
+            }
+        });
+
+        
+window.addEventListener("keydown", function(e) {
+    if(["ArrowUp","ArrowDown","ArrowLeft","ArrowRight"].indexOf(e.code) > -1) {
+        e.preventDefault();
+    }
+}, false);
+
+
+
+var videoStream = document.getElementById("video-stream");
+        //var barcodeList = document.getElementById("barcode-list");
+        var tableBody = document.getElementById("result");
+
+            function updateBarcode() {
+                fetch("http://127.0.0.1:5000/read_scan_code")
+                    .then(response => response.text())
+                    .then(data => {
+                        if (data.trim() !== "") {
+                            if (!detectedBarcodes.includes(data)) {
+                                detectedBarcodes.push(data);
+                                time = new Date();
+                                detectedTime = formatDateTime(time);
+                                
+                                // Create a new object with detected QR code and time
+                            var barcodeObject = {
+                                detected_qr_code: data,
+                                detected_time: detectedTime
+                            };
+
+
+                                 // Add the object to your array
+                                detectedBarcodesWithTime.push(barcodeObject);
+
+                                 // Create a new table row
+                                var row = tableBody.insertRow(0);
+
+                                // Create cells for QR Codes and Detected time
+                                var cell1 = row.insertCell(0);
+                                var cell2 = row.insertCell(1);
+
+                                // Set the text content of the cells
+                                cell1.textContent = data;
+                                cell2.textContent = barcodeObject.detectedTime;
+                                detectedTimes.push(barcodeObject.detectedTime);
+                            }
+                        }
+                    });
+
+            }
+        
+        // Update barcode data every 1 second
+         setInterval(updateBarcode, 1000);
+        
+        console.log(detectedBarcodes);
+
+        // Reset detectedBarcodes array when the page is unloaded (refresh button clicked)
+        window.addEventListener('unload', function() {
+            detectedBarcodes = [];
+            
+            const reset = fetch('http://127.0.0.1:5000/reset_scan_code', {
+                method: 'POST',
+                async: false,  // Make the request synchronous
+            });
+
+            if (reset.ok) {
+                console.log('QR reset');
+            } else {
+                console.error('Failed to reset frame');
+            }
+
+            
+        });
+
+        // Register click event for the button
+        document.getElementById('reset').addEventListener('click', function() {
+        
+            // Reload the page
+            location.reload();
+        });
+
+        document.getElementById('saveresult').addEventListener('click', async function() {
          event.preventDefault();
          const csrfToken = document.querySelector('meta[name="csrf-token"]').getAttribute('content');
          
@@ -371,138 +510,6 @@ function showSuccessBanner(message) {
     };
 }
 
-
-// Example usage
-
-    document.addEventListener('keydown', function(event) {
-            console.log('Key pressed: ' + event.key); // Add this line
-
-            var command = '';
-            switch (event.key) {
-                case 'ArrowUp':
-                    command = 'move_forward';
-                    break;
-                case 'ArrowDown':
-                    command = 'move_backward';
-                    break;
-                case 'ArrowLeft':
-                    command = 'move_left';
-                    break;
-                case 'ArrowRight':
-                    command = 'move_right';
-                    break;
-                case 'i':
-                    command = 'move_up';
-                    break;
-                case 'k':
-                    command = 'move_down';
-                    break;
-                case 'j':
-                    command = 'rotate_left';
-                    break;
-                case 'l':
-                    command = 'rotate_right';
-                    break;
-            }
-
-            if (command) {
-                fetch('http://127.0.0.1:5000/send_command', {
-                        method: 'POST',
-                        headers: {
-                            'Content-Type': 'application/json'
-                        },
-                        body: JSON.stringify({
-                            command: command
-                        })
-                    })
-                    .then(response => {
-                        if (response.ok) {
-                            console.log('Command sent: ' + command);
-                        } else {
-                            console.error('Failed to send command: ' + command);
-                        }
-                    });
-            }
-        });
-
-        
-window.addEventListener("keydown", function(e) {
-    if(["ArrowUp","ArrowDown","ArrowLeft","ArrowRight"].indexOf(e.code) > -1) {
-        e.preventDefault();
-    }
-}, false);
-
-
-
-var videoStream = document.getElementById("video-stream");
-        //var barcodeList = document.getElementById("barcode-list");
-        var tableBody = document.getElementById("result");
-
-            function updateBarcode() {
-                fetch("http://127.0.0.1:5000/read_scan_code")
-                    .then(response => response.text())
-                    .then(data => {
-                        if (data.trim() !== "") {
-                            if (!detectedBarcodes.includes(data)) {
-                                detectedBarcodes.push(data);
-                                time = new Date();
-                                detectedTime = formatDateTime(time);
-                                
-                                // Create a new object with detected QR code and time
-                            var barcodeObject = {
-                                detectedQrCode: data,
-                                detectedTime: detectedTime
-                            };
-
-
-                                 // Add the object to your array
-                                detectedBarcodesWithTime.push(barcodeObject);
-
-                                 // Create a new table row
-                                var row = tableBody.insertRow(0);
-
-                                // Create cells for QR Codes and Detected time
-                                var cell1 = row.insertCell(0);
-                                var cell2 = row.insertCell(1);
-
-                                // Set the text content of the cells
-                                cell1.textContent = data;
-                                cell2.textContent = barcodeObject.detectedTime;
-                                detectedTimes.push(barcodeObject.detectedTime);
-                            }
-                        }
-                    });
-
-            }
-        
-        // Update barcode data every 1 second
-         setInterval(updateBarcode, 1000);
-        
-        console.log(detectedBarcodes);
-
-        // Reset detectedBarcodes array when the page is unloaded (refresh button clicked)
-        window.addEventListener('unload', function() {
-            detectedBarcodes = [];
-            
-            const reset = fetch('http://127.0.0.1:5000/reset_scan_code', {
-                method: 'POST',
-                async: false,  // Make the request synchronous
-            });
-
-            if (reset.ok) {
-                console.log('QR reset');
-            } else {
-                console.error('Failed to reset frame');
-            }
-
-            
-        });
-
-        // Register click event for the button
-        document.getElementById('reset').addEventListener('click', function() {
-            // Reload the page
-            location.reload();
-        });
 
 </script>
 
