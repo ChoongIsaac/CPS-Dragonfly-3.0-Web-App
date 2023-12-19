@@ -27,7 +27,7 @@
     <div class="container">
       <div class="row">
         <div class="col-md-6">
-          <img src="images/loginimage.svg" alt="Image" class="img-fluid">
+          <img src="images/loginimage.jpg" alt="Image" class="img-fluid">
         </div>
 
         <div class="col-md-6 contents">
@@ -35,7 +35,7 @@
             <div class="col-md-8">
               <div class="mb-4">
               <h3>Sign In Account</h3>
-              <p class="mb-4">Welcome to CPS Inventory Tracking System</p>
+              <p class="mb-4">Welcome to CPS Dagronfly 3.0 System</p>
             </div>
 
             @if (session()->has('invalid'))

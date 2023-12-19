@@ -57,16 +57,17 @@
                 <div class="card-header">
                 
                     <div class="container row">
+                    <div style="padding: 5px;">
 
                     {{ __('Drone Control') }} 
 
                         <button type="button" class="btn btn-outline-info btn-sm" style="width:2rem; height:2rem; padding-right:0.2rem;" data-toggle="modal" data-target="#info_modal" ><i class="fa fa-info"></i></button>
-
+                    </div>
                         <div class="col-sm-1 offset-md-4" >
-                            <button type="button" class="btn btn-primary" id="test"><i class="fas fa-ruler"></i>Test </button>
+                            <button type="button" class="btn btn-danger" id="reset"><i class="fa fa-undo"></i> Reset</button>
                         </div>
 
-                        <div class="col-sm-1" style='margin-left:10%;' >
+                        <div class="col-sm-1" style='margin-left:4%;' >
                             <button type="button" class="btn btn-success" id="takeoff" ><a class="text text-light text-decoration-none" href=""><i class="fa fa-play"></i> Takeoff </a></button>
                         </div>
 
@@ -76,7 +77,7 @@
  
                         
                         <div class="col-sm-1" style='margin-left:4%;'>
-                            <button type="button" class="btn btn-danger" id="qr_control" style='margin-right:10%;'><i class="fas fa-qrcode "></i> QR Guided</button>
+                            <button type="button" class="btn btn-primary" id="qr_navigate" style='margin-right:10%;'><i class="fas fa-qrcode "></i> QR Navigate</button>
                         </div>
                         
                     </div>
@@ -113,7 +114,7 @@
     <div class="row justify-content-center">
         <div class="col-md-8">
         <h2> Monitor Drone </h2>
-            <img id="video-stream" src="http://127.0.0.1:5000/video_feed" alt="Video Stream is not available, drone is disconnected" width="760" height="520">
+            <img id="video-stream" src="http://127.0.0.1:5000/video_feed" alt="Video Stream is not available, drone is disconnected" width="720" height="420">
         </div>
         <div class="col-md-4 " >
             @include('pathrow')
@@ -233,12 +234,12 @@
         }
     });
 
-    document.getElementById('qr_control').addEventListener('click', async function() {
+    document.getElementById('qr_navigate').addEventListener('click', async function() {
         event.preventDefault();
 
         try {
             // Make an asynchronous POST request to the takeoff endpoint
-            const response = await fetch('http://127.0.0.1:5000/qrcode_control', {
+            const response = await fetch('http://127.0.0.1:5000/qrcode_navigate', {
                 method: 'POST',
             //     headers: {
             //     'Content-Type': 'application/json', 
@@ -495,6 +496,12 @@ var videoStream = document.getElementById("video-stream");
             }
 
             
+        });
+
+        // Register click event for the button
+        document.getElementById('reset').addEventListener('click', function() {
+            // Reload the page
+            location.reload();
         });
 
 </script>
