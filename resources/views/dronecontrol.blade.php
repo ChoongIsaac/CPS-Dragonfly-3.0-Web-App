@@ -359,8 +359,8 @@ var videoStream = document.getElementById("video-stream");
 
                                 // Set the text content of the cells
                                 cell1.textContent = data;
-                                cell2.textContent = barcodeObject.detectedTime;
-                                detectedTimes.push(barcodeObject.detectedTime);
+                                cell2.textContent = barcodeObject.detected_time;
+                                detectedTimes.push(barcodeObject.detected_time);
                             }
                         }
                     });

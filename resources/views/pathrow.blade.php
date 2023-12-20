@@ -87,7 +87,7 @@ console.log(dynamicInputValues);
 startTime = new Date();
 droneStartTime = formatDateTime(startTime);
     // Send data to the server using Fetch API
-    fetch('http://127.0.0.1:5000/automated', {
+    await fetch('http://127.0.0.1:5000/automated', {
         method: 'POST',
         headers: {
             'Content-Type': 'application/json'
