@@ -10,34 +10,28 @@
                 <div class="card-header">Checked Out Item</div>
                 <div class="card-body">
                     
-                    <div class="row">
-                        <div class="col-12 col-sm-6 pb-5">
+                <div class="row">
+                        <div class="col-12 col-sm-4 pb-5">
                             <h6>Item Name</h6>
                             <strong>{{$item->item_name}}</strong>
                         </div>
 
-                        <div class="col-12 col-sm-6 pb-5">
-                            <h6>Quantity</h6>
-                            <strong>{{$item->quantity}}</strong>
-                        </div>
-                    </div>
+                      
 
-                    <div class="row">
-                        <div class="col-12 col-sm-6 pb-5">
+                        <div class="col-12 col-sm-4 pb-5">
                             <h6>Item Code</h6>
-                            <strong>{{$item->rfid_id}}</strong>
+                            <strong>{{$item->item_code}}</strong>
                         </div>
-                        <div class="col-12 col-sm-6 pb-5">
-                            <h6>Location</h6>
-                            <strong>{{$item->location}}</strong>
+                       
+                        <div class="col-12 col-sm-4 pb-5">
+                            <h6>Command</h6>
+                            <strong>{{$item->command}}</strong>
                         </div>
+                       
                     </div>
 
                     <div class="row">
-                        <div class="col-12 col-sm-6 pb-5">
-                            <h6>Customer</h6>
-                            <strong>{{$item->customer}}</strong>
-                        </div>
+
                         <div class="col-12 col-sm-6 pb-5">
                             <h6>Status</h6>
                             @if($item['status']=='Available')
@@ -52,16 +46,7 @@
                         </div>
                     </div>
 
-                    <div class="row">
-                    <div class="col-12 col-sm-6 pb-5">
-                            <h6>Check In Date</h6>
-                            <strong>{{date('d-m-Y h:i A', strtotime($item->checkInDate))}}</strong>
-                        </div>
-                        <div class="col-12 col-sm-6 pb-5">
-                            <h6>Check Out Date</h6>
-                            <strong>{{date('d-m-Y h:i A', strtotime($item->checkOutDate))}}</strong>
-                        </div>
-                    </div>
+                   
                 </div>
             </div>
 
