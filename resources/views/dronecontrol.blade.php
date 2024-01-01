@@ -142,7 +142,7 @@
                             <li>Press J to rotate left</li>
                             <li>Press L to rotate right</li>
                         </ul>
-                    <p> Please put the drone to x cm away to get optimized scanning</p>
+                    <p> Please put the drone to 58.5 cm away to get optimized scanning</p>
                 </div>
                 </div>
                 <div class="modal-footer">
