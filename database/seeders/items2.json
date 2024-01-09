@@ -1,0 +1,46 @@
+[
+    {
+        "item_name": "Paper roll",
+        "item_code": "23C00017",
+        "command": "up 40",
+        "status": "Available"
+    },
+    {
+        "item_name": "Paper pallet",
+        "item_code": "23C00018",
+        "command": "down 40",
+        "status": "Available"
+    },
+
+    {
+        "item_name": "Paper roll",
+        "item_code": "22A00002",
+        "command": "up 60",
+        "status": "Available"
+    },
+    {
+        "item_name": "Paper pallet",
+        "item_code": "23C00010",
+        "command": "land",
+        "status": "Available"
+    },
+    {
+        "item_name": "Paper pallet",
+        "item_code": "23I00012",
+        "command": "left 40",
+        "status": "Available"
+    },
+    {
+        "item_name": "Paper pallet",
+        "item_code": "22G00004",
+        "command": "down 40",
+        "status": "Available"
+    },
+    {
+        "item_name": "Paper pallet",
+        "item_code": "13F00126",
+        "command": "down 40",
+        "status": "Available"
+    }
+    
+]

@@ -15,7 +15,7 @@ class ItemSeeder extends Seeder
     public function run()
     {
         // Read data from JSON file
-        $json = File::get(database_path('seeders/items.json'));
+        $json = File::get(database_path('seeders/items2.json'));
         $data = json_decode($json, true);
 
         // Seed the items table

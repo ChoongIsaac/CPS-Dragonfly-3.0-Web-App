@@ -1,14 +1,28 @@
 [
     {
         "item_name": "Paper roll",
-        "item_code": "ABC123",
+        "item_code": "23C00017",
         "command": "up 60",
         "status": "Available"
     },
     {
         "item_name": "Paper pallet",
-        "item_code": "XYZ789",
-        "command": "left 60",
+        "item_code": "23C00018",
+        "command": "up 40",
+        "status": "Available"
+    },
+
+    {
+        "item_name": "Paper roll",
+        "item_code": "22A00002",
+        "command": "left 40",
+        "status": "Available"
+    },
+    {
+        "item_name": "Paper pallet",
+        "item_code": "23C00010",
+        "command": "land",
         "status": "Available"
     }
+    
 ]
