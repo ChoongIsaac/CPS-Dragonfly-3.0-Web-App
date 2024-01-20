@@ -83,8 +83,9 @@ document.addEventListener('DOMContentLoaded', function() {
         document.getElementById("myForm").reset();
 
         console.log(dynamicInputValues);
-        var startTime = new Date();
-        var droneStartTime = formatDateTime(startTime);
+        startTime = new Date();
+        droneStartTime = formatDateTime(startTime);
+        console.log(droneStartTime);
 
         // Send data to the server using Fetch API
         try {
@@ -104,8 +105,8 @@ document.addEventListener('DOMContentLoaded', function() {
             console.error(error);
         }
 
-        var endTime = new Date();
-        var droneEndTime = formatDateTime(endTime);
+        endTime = new Date();
+        droneEndTime = formatDateTime(endTime);
     });
 });
 

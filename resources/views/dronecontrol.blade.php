@@ -243,16 +243,9 @@
             // Make an asynchronous POST request to the takeoff endpoint
             const response = await fetch('http://127.0.0.1:5000/qrcode_navigate', {
                 method: 'POST',
-            //     headers: {
-            //     'Content-Type': 'application/json', 
-            // },
             
             });
 
-            // const data = await response.json();
-
-            // Handle the response data if needed
-            // console.log(data);
             document.getElementById('response').innerText = 'QR_CONTROL request sent!';
         } catch (error) {
             // Handle errors
@@ -264,7 +257,6 @@
     });
    
 
-// Example usage
 
     document.addEventListener('keydown', function(event) {
             console.log('Key pressed: ' + event.key); // Add this line
@@ -376,15 +368,23 @@ var videoStream = document.getElementById("video-stream");
         window.addEventListener('unload', function() {
             detectedBarcodes = [];
             
-            const reset = fetch('http://127.0.0.1:5000/reset_scan_code', {
+            const reset_code = fetch('http://127.0.0.1:5000/reset_scan_code', {
                 method: 'POST',
                 async: false,  // Make the request synchronous
             });
-
-            if (reset.ok) {
+            const reset_path = fetch('http://127.0.0.1:5000/reset_flight_path', {
+                method: 'POST',
+                async: false,  // Make the request synchronous
+            });
+            if (reset_code.ok) {
                 console.log('QR reset');
             } else {
                 console.error('Failed to reset frame');
+            }
+            if (reset_path.ok) {
+                console.log('QR reset');
+            } else {
+                console.error('Failed to reset path');
             }
 
             
@@ -392,7 +392,16 @@ var videoStream = document.getElementById("video-stream");
 
         // Register click event for the button
         document.getElementById('reset').addEventListener('click', function() {
-        
+            detectedBarcodes = [];
+            
+            const reset_code = fetch('http://127.0.0.1:5000/reset_scan_code', {
+                method: 'POST',
+                async: false,  // Make the request synchronous
+            });
+            const reset_path = fetch('http://127.0.0.1:5000/reset_flight_path', {
+                method: 'POST',
+                async: false,  // Make the request synchronous
+            });
             // Reload the page
             location.reload();
         });
